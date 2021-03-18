@@ -83,9 +83,6 @@ let g:airline_section_b = airline#section#create_left(['hunks'])
 "let g:fzf_preview_window = ''
 let g:fzf_layout = { 'down': '40%' }
 
-" ag
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
 " hclfmt
 let g:hcl_fmt_autosave = 1
 let g:tf_fmt_autosave = 1
@@ -148,7 +145,11 @@ nmap <C-p> :Files<CR>
 nmap <C-g> :Ag<CR>
 
 " Files command override
-command! Files call fzf#run(fzf#vim#with_preview(fzf#wrap({'source': 'fd --type file -E "(node_modules|\.git)"', 'sink': 'e', 'dir': <q-args>}, <bang>0)))
+command! Files call fzf#run(fzf#vim#with_preview(fzf#wrap({'source': 'fd --type file -i -E "(node_modules|\.git)"', 'sink': 'e', 'dir': <q-args>}, <bang>0)))
+
+" Ag command ovveride
+let ag_ignore_glob='--ignore=''*log*'' --ignore=''*coverage*'' --ignore=''*node_modules*'' --ignore=''*.lock*'''
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, ag_ignore_glob, fzf#vim#with_preview(fzf#wrap({'options': '--delimiter : --nth 4..'}), <bang>0))
 
 " go
 au FileType go nmap <leader>rv <Plug>(go-run-vertical)
