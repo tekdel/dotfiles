@@ -54,12 +54,12 @@ set nu rnu
 
 function! RailsTransform(cmd) abort
  let project_name = matchstr(a:cmd, '\s[a-z_]*')
- let new_command = 'cd' . project_name . '; ' . substitute(a:cmd, '[a-z_]*\/', '\1', '')
+ let new_command = 'cd' . project_name . '; bundle exec ' . substitute(a:cmd, '[a-z_]*\/', '\1', '')
  return new_command
 endfunction
 
 let test#strategy = "neovim"
-let test#neovim#term_position = "below 10sp"
+let test#neovim#term_position = "below 20sp"
 
 let pwd = getcwd()
 if pwd =~ "src/\mealpal"
