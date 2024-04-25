@@ -1,6 +1,7 @@
 #!/bin/sh
 
 systemctl --user import-environment DISPLAY
+setxkbmap -layout 'us' -option caps:escape
 
 
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
