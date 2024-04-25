@@ -1,0 +1,6 @@
+#!/bin/sh
+
+systemctl --user import-environment DISPLAY
+
+
+[ -n "$xrdbpid" ] && wait "$xrdbpid"
