@@ -14,7 +14,7 @@ set $mod Mod4
 default_border pixel 1
 default_floating_border pixel 1
 
-gaps inner 10px
+# gaps inner 10px
 
 client.focused #4c7899 #285577 #ffffff #2e9ef4 #ff0000
 
