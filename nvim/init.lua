@@ -586,10 +586,15 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, javascript = true, typescript = true }
+
+        local path = vim.inspect(vim.api.nvim_buf_get_name(0))
+        local dry_run = string.find(path, 'curbwaste_apis') or string.find(path, 'curbwaste_web')
+
         return {
           timeout_ms = 500,
           lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+          dry_run = dry_run,
         }
       end,
       formatters_by_ft = {
