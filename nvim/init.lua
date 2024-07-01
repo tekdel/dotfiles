@@ -169,6 +169,13 @@ require('lazy').setup({
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
+  {
+    'tpope/vim-fugitive',
+    config = function()
+      vim.keymap.set('n', '<leader>gg', ':Git<CR>', {})
+    end,
+  },
+
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
   --    require('gitsigns').setup({ ... })
@@ -185,6 +192,11 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+    config = function()
+      require('gitsigns').setup()
+
+      vim.keymap.set('n', '<leader>gp', ':Gitsigns preview_hunk<CR>', {})
+    end,
   },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -251,13 +263,6 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>ef', ':Explore<CR>', { desc = '[E]xplore [F]iles' })
     end,
   },
-  {
-    'kdheepak/lazygit.nvim',
-    config = function()
-      vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>', {})
-    end,
-  },
-
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
