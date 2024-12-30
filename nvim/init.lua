@@ -1044,19 +1044,6 @@ require('lazy').setup({
             program = '${file}',
             cwd = '${workspaceFolder}',
           },
-          {
-            type = 'pwa-node',
-            request = 'attach',
-            name = 'Attach',
-            -- processId = require('dap.utils').pick_process,
-            cwd = '${workspaceFolder}',
-            address = 'localhost',
-            port = 9229,
-            outFiles = {
-              '${workspaceFolder}/**/*.(m|c|)js',
-              '!**/node_modules/**',
-            },
-          },
         }
       end
 
