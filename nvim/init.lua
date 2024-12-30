@@ -221,32 +221,37 @@ require('lazy').setup({
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+      require('which-key').add {
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>c_', hidden = true },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>d_', hidden = true },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>r_', hidden = true },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>s_', hidden = true },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>w_', hidden = true },
       }
 
-      require('which-key').register {
-        c = {
-          name = 'ChatGPT',
-          c = { '<cmd>ChatGPT<CR>', 'ChatGPT' },
-          e = { '<cmd>ChatGPTEditWithInstruction<CR>', 'Edit with instruction', mode = { 'n', 'v' } },
-          g = { '<cmd>ChatGPTRun grammar_correction<CR>', 'Grammar Correction', mode = { 'n', 'v' } },
-          t = { '<cmd>ChatGPTRun translate<CR>', 'Translate', mode = { 'n', 'v' } },
-          k = { '<cmd>ChatGPTRun keywords<CR>', 'Keywords', mode = { 'n', 'v' } },
-          d = { '<cmd>ChatGPTRun docstring<CR>', 'Docstring', mode = { 'n', 'v' } },
-          a = { '<cmd>ChatGPTRun add_tests<CR>', 'Add Tests', mode = { 'n', 'v' } },
-          o = { '<cmd>ChatGPTRun optimize_code<CR>', 'Optimize Code', mode = { 'n', 'v' } },
-          s = { '<cmd>ChatGPTRun summarize<CR>', 'Summarize', mode = { 'n', 'v' } },
-          f = { '<cmd>ChatGPTRun fix_bugs<CR>', 'Fix Bugs', mode = { 'n', 'v' } },
-          x = { '<cmd>ChatGPTRun explain_code<CR>', 'Explain Code', mode = { 'n', 'v' } },
-          r = { '<cmd>ChatGPTRun roxygen_edit<CR>', 'Roxygen Edit', mode = { 'n', 'v' } },
-          l = { '<cmd>ChatGPTRun code_readability_analysis<CR>', 'Code Readability Analysis', mode = { 'n', 'v' } },
-        },
-      }
+      -- require('which-key').register {
+      --   c = {
+      --     name = 'ChatGPT',
+      --     c = { '<cmd>ChatGPT<CR>', 'ChatGPT' },
+      --     e = { '<cmd>ChatGPTEditWithInstruction<CR>', 'Edit with instruction', mode = { 'n', 'v' } },
+      --     g = { '<cmd>ChatGPTRun grammar_correction<CR>', 'Grammar Correction', mode = { 'n', 'v' } },
+      --     t = { '<cmd>ChatGPTRun translate<CR>', 'Translate', mode = { 'n', 'v' } },
+      --     k = { '<cmd>ChatGPTRun keywords<CR>', 'Keywords', mode = { 'n', 'v' } },
+      --     d = { '<cmd>ChatGPTRun docstring<CR>', 'Docstring', mode = { 'n', 'v' } },
+      --     a = { '<cmd>ChatGPTRun add_tests<CR>', 'Add Tests', mode = { 'n', 'v' } },
+      --     o = { '<cmd>ChatGPTRun optimize_code<CR>', 'Optimize Code', mode = { 'n', 'v' } },
+      --     s = { '<cmd>ChatGPTRun summarize<CR>', 'Summarize', mode = { 'n', 'v' } },
+      --     f = { '<cmd>ChatGPTRun fix_bugs<CR>', 'Fix Bugs', mode = { 'n', 'v' } },
+      --     x = { '<cmd>ChatGPTRun explain_code<CR>', 'Explain Code', mode = { 'n', 'v' } },
+      --     r = { '<cmd>ChatGPTRun roxygen_edit<CR>', 'Roxygen Edit', mode = { 'n', 'v' } },
+      --     l = { '<cmd>ChatGPTRun code_readability_analysis<CR>', 'Code Readability Analysis', mode = { 'n', 'v' } },
+      --   },
+      -- }
     end,
   },
 
@@ -485,10 +490,11 @@ require('lazy').setup({
             })
           end
 
-          vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach' }, {
-            buffer = event.buf,
-            callback = vim.lsp.codelens.refresh,
-          })
+          -- vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach' }, {
+          -- vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'LspAttach' }, {
+          --   buffer = event.buf,
+          --   callback = vim.lsp.codelens.refresh,
+          -- })
 
           -- trigger codelens refresh
           vim.api.nvim_exec_autocmds('User', { pattern = 'LspAttached' })
@@ -565,6 +571,7 @@ require('lazy').setup({
         'typescript-language-server',
         'gopls',
         'markdown-oxide',
+        'prisma-language-server',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -615,24 +622,35 @@ require('lazy').setup({
     },
   },
 
-  { --ChatGPT
-    'jackMort/ChatGPT.nvim',
-    event = 'VeryLazy',
+  -- { --ChatGPT
+  --   'jackMort/ChatGPT.nvim',
+  --   event = 'VeryLazy',
+  --   config = function()
+  --     require('chatgpt').setup()
+  --   end,
+  --   opts = {
+  --     openai_params = {
+  --       model = 'gpt-3.5-turbo',
+  --     },
+  --   },
+  --   dependencies = {
+  --     'MunifTanjim/nui.nvim',
+  --     'nvim-lua/plenary.nvim',
+  --     'folke/trouble.nvim',
+  --     'nvim-telescope/telescope.nvim',
+  --   },
+  -- },
+
+  {
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
+    event = 'InsertEnter',
     config = function()
-      require('chatgpt').setup()
+      require('copilot').setup {}
     end,
-    opts = {
-      openai_params = {
-        model = 'gpt-3.5-turbo',
-      },
-    },
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-      'nvim-lua/plenary.nvim',
-      'folke/trouble.nvim',
-      'nvim-telescope/telescope.nvim',
-    },
   },
+
+  { 'onsails/lspkind.nvim' },
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -669,11 +687,18 @@ require('lazy').setup({
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      {
+        'zbirenbaum/copilot-cmp',
+        config = function()
+          require('copilot_cmp').setup()
+        end,
+      },
     },
     config = function()
       -- See `:help cmp`
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
+      local lspkind = require 'lspkind'
       luasnip.config.setup {}
 
       cmp.setup {
@@ -731,6 +756,7 @@ require('lazy').setup({
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
         sources = {
+          { name = 'copilot', group_index = 2 },
           { name = 'nvim_lsp', option = {
             markdown_oxide = {
               keyword_pattern = [[\(\k\| \|\/\|#\)\+]],
@@ -738,6 +764,14 @@ require('lazy').setup({
           } },
           { name = 'luasnip' },
           { name = 'path' },
+        },
+
+        formatting = {
+          format = lspkind.cmp_format {
+            mode = 'symbol',
+            max_width = 50,
+            symbol_map = { Copilot = '' },
+          },
         },
       }
     end,
@@ -877,6 +911,226 @@ require('lazy').setup({
       --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
       --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+    end,
+  },
+
+  {
+    -- NOTE: Yes, you can install new plugins here!
+    'mfussenegger/nvim-dap',
+    -- NOTE: And you can specify dependencies as well
+    dependencies = {
+      -- Creates a beautiful debugger UI
+      'rcarriga/nvim-dap-ui',
+
+      'theHamsta/nvim-dap-virtual-text',
+      'nvim-neotest/nvim-nio',
+
+      -- Required dependency for nvim-dap-ui
+      'nvim-neotest/nvim-nio',
+
+      -- Installs the debug adapters for you
+      'williamboman/mason.nvim',
+      'jay-babu/mason-nvim-dap.nvim',
+
+      -- Add your own debuggers here
+      'leoluz/nvim-dap-go',
+      'mxsdev/nvim-dap-vscode-js',
+      {
+        'microsoft/vscode-js-debug',
+        build = 'npm ci --loglevel=error && npx gulp vsDebugServerBundle && mv dist out',
+      },
+    },
+    config = function()
+      local dap = require 'dap'
+      local dapui = require 'dapui'
+
+      require('nvim-dap-virtual-text').setup {
+        -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
+        display_callback = function(variable)
+          local name = string.lower(variable.name)
+          local value = string.lower(variable.value)
+          if name:match 'secret' or name:match 'api' or value:match 'secret' or value:match 'api' then
+            return '*****'
+          end
+
+          if #variable.value > 15 then
+            return ' ' .. string.sub(variable.value, 1, 15) .. '... '
+          end
+
+          return ' ' .. variable.value
+        end,
+      }
+
+      require('mason-nvim-dap').setup {
+        -- Makes a best effort to setup the various debuggers with
+        -- reasonable debug configurations
+        automatic_setup = true,
+
+        -- You can provide additional configuration to the handlers,
+        -- see mason-nvim-dap README for more information
+        handlers = {},
+
+        -- You'll need to check that you have the required things installed
+        -- online, please don't ask me how to install them :)
+        ensure_installed = {
+          -- Update this to ensure that you have the debuggers for the langs you want
+          'delve',
+        },
+      }
+
+      -- Eval var under cursor
+      vim.keymap.set('n', '<space>?', function()
+        require('dapui').eval(nil, { enter = true })
+      end)
+
+      dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+      end
+
+      -- Basic debugging keymaps, feel free to change to your liking!
+      vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
+      vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })
+      vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
+      vim.keymap.set('n', '<F3>', dap.step_out, { desc = 'Debug: Step Out' })
+
+      -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+      vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
+      vim.keymap.set('n', '<F13>', dap.restart, { desc = 'Debug: Restart' })
+
+      vim.keymap.set('n', '<leader>B', function()
+        dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+      end, { desc = 'Debug: Set Breakpoint' })
+
+      vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+      vim.keymap.set('n', '<leader>gb', dap.run_to_cursor, { desc = 'Debug: Run to Cursor' })
+
+      -- Dap UI setup
+      -- For more information, see |:help nvim-dap-ui|
+      dapui.setup {
+        -- Set icons to characters that are more likely to work in every terminal.
+        --    Feel free to remove or use ones that you like more! :)
+        --    Don't feel like these are good choices.
+        icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+        controls = {
+          icons = {
+            pause = '⏸',
+            play = '▶',
+            step_into = '⏎',
+            step_over = '⏭',
+            step_out = '⏮',
+            step_back = 'b',
+            run_last = '▶▶',
+            terminate = '⏹',
+            disconnect = '⏏',
+          },
+        },
+      }
+
+      dap.listeners.after.event_initialized['dapui_config'] = dapui.open
+      dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+      dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+      -- Install golang specific config
+      require('dap-go').setup()
+      dap.adapters['pwa-node'] = {
+        type = 'server',
+        host = '::1',
+        port = '${port}',
+        executable = {
+          -- command = "node",
+          -- -- 💀 Make sure to update this path to point to your installation
+          -- args = { "/path/to/js-debug/src/dapDebugServer.js", "${port}" },
+          command = 'js-debug-adapter',
+          args = { '${port}' },
+          outFiles = {
+            '${workspaceFolder}/**/*.(m|c|)js',
+            '!**/node_modules/**',
+          },
+        },
+      }
+
+      for _, language in ipairs { 'typescript', 'javascript' } do
+        dap.configurations[language] = {
+          {
+            type = 'pwa-node',
+            request = 'launch',
+            name = 'Launch file',
+            program = '${file}',
+            cwd = '${workspaceFolder}',
+          },
+          {
+            type = 'pwa-node',
+            request = 'attach',
+            name = 'Attach',
+            processId = require('dap.utils').pick_process,
+            cwd = '${workspaceFolder}',
+            outFiles = {
+              '${workspaceFolder}/**/*.(m|c|)js',
+              '!**/node_modules/**',
+            },
+          },
+        }
+      end
+
+      -- require('dap-vscode-js').setup {
+      --   adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node', 'chrome' },
+      --   -- debugger_path = '/usr/lib/js-debug/',
+      --   -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+      --   -- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
+      --   debugger_cmd = { 'js-debug-adapter' }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+      --   -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+      --   -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+      --   -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+      -- }
+      --
+      -- local langs = { 'javascript', 'typescript' }
+      -- for _, lang in ipairs(langs) do
+      --   dap.configurations[lang] = {
+      --     {
+      --       type = 'pwa-node',
+      --       request = 'attach',
+      --       name = 'Attach to Node app',
+      --       address = 'localhost',
+      --       cwd = '${workspaceFolder}',
+      --     },
+      --     {
+      --       type = 'pwa-node',
+      --       request = 'attach',
+      --       name = 'Attach 2',
+      --       processId = require('dap.utils').pick_process,
+      --       cwd = '${workspaceFolder}',
+      --     },
+      --   }
+      -- end
+
+      local elixir_ls_debugger = vim.fn.exepath 'elixir-ls-debugger'
+      if elixir_ls_debugger ~= '' then
+        dap.adapters.mix_task = {
+          type = 'executable',
+          command = elixir_ls_debugger,
+        }
+
+        dap.configurations.elixir = {
+          {
+            type = 'mix_task',
+            name = 'phoenix server',
+            task = 'phx.server',
+            request = 'launch',
+            projectDir = '${workspaceFolder}',
+            exitAfterTaskReturns = false,
+            debugAutoInterpretAllModules = false,
+          },
+        }
+      end
     end,
   },
 
