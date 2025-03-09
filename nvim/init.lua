@@ -95,6 +95,10 @@ vim.keymap.set('n', '<leader>qc', ':cclose<CR>', { desc = 'Close [Q]uickfix list
 vim.keymap.set('n', '<leader>qj', ':cnext<CR>', { desc = 'Go to [N]ext quickfix entry from cursor' })
 vim.keymap.set('n', '<leader>qk', ':cprev<CR>', { desc = 'Go to [P]revious quickfix entry from cursor' })
 
+vim.keymap.set('n', '<leader>y', '"+y', { desc = 'Yank to system' })
+vim.keymap.set('v', '<leader>y', '"+y', { desc = 'Yank to system' })
+vim.keymap.set('n', '<leader>Y', 'gg "+yG', { desc = 'Yank the buffer to the system' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -601,7 +605,7 @@ require('lazy').setup({
         local disable_filetypes = { c = true, cpp = true, javascript = true, typescript = true }
 
         local path = vim.inspect(vim.api.nvim_buf_get_name(0))
-        local dry_run = string.find(path, 'curbwaste_apis') or string.find(path, 'curbwaste_web')
+        local dry_run = string.find(path, 'old%-api') or string.find(path, 'web%-ui')
 
         return {
           timeout_ms = 500,
@@ -1183,5 +1187,11 @@ require('lazy').setup({
   },
 })
 
+vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
+vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Yank the buffer to the system' })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Yank the buffer to the system' })
+vim.keymap.set('v', '<leader>p', '"_dP', { desc = 'Yank the buffer to the system' })
