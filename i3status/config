@@ -1,13 +1,13 @@
 general {
   colors = true
-  interval = 5
+  interval = 3
 }
 
 order += "volume master"
 order += "disk /"
 order += "memory"
 order += "battery all"
-order += "load"
+order += "cpu_usage"
 order += "tztime local"
 
 volume master {
@@ -36,4 +36,8 @@ disk "/" {
 
 memory {
   format = "%available"
+}
+
+cpu_usage {
+  format = "%usage"
 }
