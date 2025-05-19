@@ -1,7 +1,6 @@
 #!/bin/sh
 
 systemctl --user import-environment DISPLAY
-setxkbmap -layout 'us' -option caps:escape
-
+setxkbmap -layout 'us,ru' -option caps:escape -option 'grp:shifts_toggle'
 
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
