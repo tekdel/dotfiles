@@ -550,6 +550,26 @@ require('lazy').setup({
             },
           },
         },
+        ts_ls = {
+          filetypes = {
+            'javascript',
+            'typescript',
+            'javascriptreact',
+            'typescriptreact',
+          },
+          settings = {
+            typescript = {
+              inlayHints = {
+                enabled = true,
+              },
+            },
+            javascript = {
+              inlayHints = {
+                enabled = true,
+              },
+            },
+          },
+        },
         markdown_oxide = {
           root_dir = lspconfig.util.root_pattern('.git', vim.fn.getcwd()),
         },
